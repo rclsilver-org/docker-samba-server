@@ -1,0 +1,19 @@
+[global]
+  disable netbios = Yes
+  log file = /var/log/samba/log.%m
+  logging = file
+  max log size = 10000
+  obey pam restrictions = Yes
+  pam password change = Yes
+  panic action = /usr/share/samba/panic-action %d
+  passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+  passwd program = /usr/bin/passwd %u
+  security = USER
+  server min protocol = SMB2
+  server role = standalone server
+  server string = %h server (Samba Server Version %v)
+  unix password sync = Yes
+  idmap config * : range = 1000-999999
+  idmap config * : backend = tdb
+  hosts allow = ${SMB_HOSTS_ALLOW}
+  hosts deny = ${SMB_HOSTS_DENY}

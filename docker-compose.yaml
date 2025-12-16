@@ -1,0 +1,22 @@
+volumes:
+  samba:
+
+services:
+  samba:
+    image: ghcr.io/rclsilver-org/samba-server:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "445:445/tcp"
+    volumes:
+      - samba:/var/lib/samba
+      - ./docker-entrypoint.sh:/docker-entrypoint.sh:ro
+      - ./healthcheck.sh:/healthcheck.sh:ro
+      - ./shares.d:/etc/samba/conf.d:ro
+    healthcheck:
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: samba-server
+description: A Helm chart for Kubernetes to deploy a Samba server
+
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+type: application
+
+# The version of the application being deployed
+version: 0.0.0

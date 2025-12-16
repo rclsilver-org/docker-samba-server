@@ -1,0 +1,55 @@
+# docker-compose.override.yaml.example
+#
+# Copy this file to docker-compose.override.yaml and customize for your environment:
+#   cp docker-compose.override.yaml.example docker-compose.override.yaml
+#
+# This file will be automatically loaded by docker-compose
+
+services:
+  samba:
+    # LDAP Configuration (Required)
+    environment:
+      # LDAP server URI - use ldaps:// for encrypted connection
+      LDAP_URI: 'ldap://ldap.example.com'
+
+      # Base DN for all LDAP searches
+      LDAP_SEARCH_BASE: 'dc=example,dc=com'
+
+      # Base DN for user searches (typically ou=users or ou=people)
+      LDAP_USER_SEARCH_BASE: 'ou=users,dc=example,dc=com'
+
+      # Base DN for group searches (typically ou=groups)
+      LDAP_GROUP_SEARCH_BASE: 'ou=groups,dc=example,dc=com'
+
+      # Samba Access Control (Optional)
+      # Allow specific networks/hosts (space or comma-separated)
+      SMB_HOSTS_ALLOW: '192.168.1.0/24 10.0.0.0/8'
+
+      # Deny all others (default: ALL)
+      # SMB_HOSTS_DENY: 'ALL'
+
+    # Mount your share configurations (Optional)
+    # volumes:
+    #   - /path/to/data:/data:rw
+    #   - /path/to/backups:/backups:ro
+
+# Example share configurations to create in shares.d/:
+#
+# shares.d/homes.conf:
+# [homes]
+#   browseable = No
+#   comment = Home Directories
+#   create mask = 0644
+#   path = /home/%S
+#   read only = No
+#   valid users = %S
+#
+# shares.d/shared.conf:
+# [shared]
+#   path = /data/shared
+#   browseable = yes
+#   read only = no
+#   valid users = @users
+#   create mask = 0664
+#   directory mask = 0775
+#   force group = users
